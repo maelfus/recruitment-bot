@@ -1,0 +1,11 @@
+{
+  "name": "RecruiterBot",
+  "version": "0.0.1",
+  "description": "Discord Recruitment Manager Bot",
+  "main": "bot.js",
+  "author": "Maelfus",
+  "dependencies": {
+    "discord.io": "github:woor/discord.io#gateway_v6",
+    "winston": "^2.4.0"
+  }
+}
