@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// DB Connect 
+// DB Connect
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/botweb');
@@ -14,10 +14,21 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var adaro = require('adaro');
 
 // view engine setup
+var options = {
+  helpers: [
+    function (dust) { dust.helpers.myHelper = function (a, b, c, d) {} },
+    'dustjs-helpers',
+    {
+      arguments: { "debug": true }
+    }
+  ]
+};
+app.engine('dust', adaro.dust(options));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'dust');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
