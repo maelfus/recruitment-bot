@@ -1,0 +1,97 @@
+{>"master" /}
+{<title}Listings{/title}
+{<body}
+<h1>Insert New Listing</h1>
+<div class="row">
+<div class="column">
+  <table width="450">
+  <tr>
+    <th>Guild Name</th>
+    <td><input type="text" name="guildName" value="Guild Name"></td>
+  </tr>
+  <tr>
+    <th>Contact</th>
+    <td><input type="text" name="contact" value="Main Contact"></td>
+  </tr>
+  <tr>
+    <th>Region</th>
+    <td><select name="region">
+      <option value="na">NA</option>
+      <option value="eu">EU</option>
+    </select></td>
+  </tr>
+  <tr>
+    <th>Server</th>
+    <td><select name="server">
+      <option value="doomhammer">Doomhammer</option>
+    </select></td>
+  </tr>
+  <tr>
+    <th>Faction</th>
+    <td><select name="faction">
+      <option value="horde">Horde</option>
+      <option value="alliance">Alliance</options>
+    </select></td>
+  </tr>
+  <tr>
+    <th colspan=2>Classes</th>
+  </tr>
+  <tr>
+    <td colspan=2>
+    Death Knight: Blood<Input type="checkbox" name="classes" value="deathknightblood"> Unholy<input type="checkbox" name="classes" value="deathknightunholy"> Frost<input type="checkbox" name="classes" value="deathknightfrost"><br />
+    Demon Hunter: Havoc<input type="checkbox" name="classes" value="demonhunterhavoc"> Vengeance<input type="checkbox" name="classes" value="demonhuntervengeance"><br />
+    Druid: Balance<input type="checkbox" name="classes" value="druidbalance"> Feral<input type="checkbox" name="classes" value="druidferal"> Guardian<input type="checkbox" name="classes" value="druidguardian"> Restoration<input type="checkbox" name="classes" value="druidrestoration"><br />
+    Hunter: Beast Mastery<input type="checkbox" name="classes" value="hunterbeastmastert"> Marksmanship<input type="checkbox" name="classes" value="huntermarksmanship"> Survival<input type="checkbox" name="classes" value="huntersurvival"><br />
+    Mage: Arcane<input type="checkbox" name="classes" value="magearcane"> Fire<input type="checkbox" name="classes" value="magefire"> Frost<input type="checkbox" name="classes" value="magefrost"><br />
+    Monk: Brewmaster<input type="checkbox" name="classes" value="monkbrewmaster"> Mistweaver<input type="checkbox" name="classes" value="monkmistweaver"> Windwalker<input type="checkbox" name="classes" value="monkwindwalker"><br />
+    Paladin: Holy<input type="checkbox" name="classes" value="paladinholy"> Protection<input type="checkbox" name="classes" value="paladinprotection"> Retribution<input type="checkbox" name="classes" value="paladinprotection"><br />
+    Priest: Discipline<input type="checkbox" name="classes" value="priestdiscipline"> Holy<input type="checkbox" name="classes" value="priestholy"> Shadow<input type="checkbox" name="classes" value="priestshadow"><br />
+    Rogue: Assassination<input type="checkbox" name="classes" value="rogueassassination"> Outlaw<input type="checkbox" name="classes" value="rogueoutlaw"> Subtlety<input type="checkbox" name="classes" value="roguesubtlety"><br />
+    Shaman: Elemental<input type="checkbox" name="classes" value="shamanelemental"> Enhancement<input type="checkbox" name="classes" value="shamanenhancement"> Resto<input type="checkbox" name="classes" value="shamanrestoration"><br />
+    Warlock: Affliction<input type="checkbox" name="classes" value="warlockaffliction"> Demonology<input type="checkbox" name="classes" value="warlockdemonology"> Destruction<input type="checkbox" name="classes" value="warlockdestruction"><br />
+    Warrior: Arms<input type="checkbox" name="classes" value="warriorarms"> Fury<input type="checkbox" name="classes" value="warriorfury"> Protection<input type="checkbox" name="classes" value="warriorprotection"><br />
+    </td>
+  </tr>
+  <tr>
+    <th>Language</th>
+    <td><input type="text" name="language" value="Primary Language"></td>
+  </tr>
+  <tr>
+    <th>Raid Type</th>
+    <td><select name="raidtype">
+      <option value="casual">Casual</option>
+    </td>
+  </tr>
+  <tr>
+    <th>Raid Time</th>
+    <td>___</td>
+  </tr>
+  <tr>
+    <th>Progress</th>
+    <td>___</td>
+  </tr>
+  <tr>
+    <th>Discord Link</th>
+    <td><input type="url" name="discordlink"></td>
+  </tr>
+  <tr>
+    <th>Website</th>
+    <td><input type="url" name="website"></td>
+  </tr>
+  <tr>
+    <th colspan=2>Description (Tell us about your guild in 280 characters or less)</th>
+  </tr>
+  <tr>
+    <td colspan=2><textarea class="description" name="description" rows="10" cols="30" value="Short Description" maxlength="280"></textarea></td>
+  </tr>
+  <tr>
+    <td colspan=2><input type="submit" value="Submit"></td>
+  </tr>
+</table></div>
+<div class="column">
+  <ul>
+  {#listings}<li>{#id /} - {#guildName /} <button>Delete</button> </li>{/listings}
+  </ul>
+</div>
+</div>
+{/body}

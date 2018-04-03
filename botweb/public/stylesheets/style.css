@@ -1,8 +1,63 @@
 body {
-  padding: 50px;
+  margin: 0px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+.navbar {
+  display: block;
+  padding: 5px;
+  font: 20px "Lucidan Grande", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: grey;
+}
+
+ul.navbar {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li.navbar {
+  display: inline;
+}
+li.navbar a {
+    /*display: block;*/
+    color: white;
+    font: 15px;
+    font-weight: normal;
+    text-align: center;
+    /*padding: 14px 16px;*/
+    text-decoration: none;
+}
+
+.content {
+  padding: 5px;
+}
+.column {
+  float: left;
+  /*width: 50%;*/
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+table, th, td {
+  border: 1px solid black;
+  text-align: left;
+  border-collapse: collapse;
+}
+.description {
+  padding: 2px;
+  border: 0px;
+  width: 442px;
+  height: 200px;
+  resize: none;
+
 }

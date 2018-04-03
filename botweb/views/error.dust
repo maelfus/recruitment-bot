@@ -1,6 +1,6 @@
-extends layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+{>"master" /}
+{<title}Error{/title}
+{<body}
+  <h2>{#error}{.}</h2>
+    <pre>{#stack}{.}{@sep} <br /> {/sep}{/stack}{/error}
+{/body}
