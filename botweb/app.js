@@ -12,7 +12,6 @@ var db = monk('localhost:27017/botweb');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var list = require('./routes/list');
 
 var app = express();
 var adaro = require('adaro');
@@ -47,7 +46,6 @@ app.use(function(req,res,next){
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/list', list);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,7 +62,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', { title: 'Error' });
 });
 
 module.exports = app;
