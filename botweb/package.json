@@ -13,7 +13,6 @@
     "dustjs-helpers": "^1.7.4",
     "dustjs-linkedin": "^2.7.5",
     "express": "~4.15.5",
-    "jade": "~1.11.0",
     "mongodb": "~3.0.1",
     "monk": "~6.0.5",
     "morgan": "~1.9.0",
