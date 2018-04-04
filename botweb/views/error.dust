@@ -1,5 +1,4 @@
 {>"master" /}
-{<title}Error{/title}
 {<body}
   <h2>{#error}{.}</h2>
     <pre>{#stack}{.}{@sep} <br /> {/sep}{/stack}{/error}
