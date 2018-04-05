@@ -10,7 +10,7 @@
   </tr>
   <tr>
     <th>Battle.net Contacts (comma seperated)</th>
-    <td><input type="text" name="contactbattlenet" value="Main Contact"></td>
+    <td><input type="text" name="contactbnet" value="Main Contact"></td>
   </tr>
   <tr>
     <th>Discord Contacts (comma seperated)</th>
