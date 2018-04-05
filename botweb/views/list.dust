@@ -93,7 +93,7 @@
 </table></form></div>
 <div class="column">
   <ul>
-  {#listings}<li>{#id /} - {#guildName /} <button>Delete</button> </li>{/listings}
+  {#listing}<li><form action="/removeguild" method="POST"><input type="hidden" name="id" value="{#_id}{.}{/_id}"><input type="submit" value="Delete"> {#_id}{.}{/_id} - {#guildname}{.}{/guildname}</form></li>{/listing}
   </ul>
 </div>
 </div>

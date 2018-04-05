@@ -7,14 +7,29 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Home' });
 });
 
-/* Handle POST request from listings page */
+/* Handle POST request to delete a guild from listing page */
+router.post('/removeguild', function(req, res, next) {
+  var db = req.db;
+  var collection = db.get('listingcollection');
 
-router.post('/addguild', function(req, res) {
+  collection.remove({ _id: req.body.id }, function(err, doc) {
+    if (err) {
+      req.send('An error occured while removing listing');
+    }
+    else {
+      // Forward back to /list
+      res.redirect('/list');
+    }
+  });
+});
+
+
+/* Handle POST request to add a new guild from listings page */
+router.post('/addguild', function(req, res, next) {
   // Set DB
   var db = req.db;
 
   // Gather FORM variables
-/* Commenting until completion */
   var guildname = req.body.guildname;
   var contactbnet = req.body.contactbnet;
   var contactdiscord = req.body.contactdiscord;
@@ -31,7 +46,6 @@ router.post('/addguild', function(req, res) {
   var description = req.body.description;
   // var user = req.body.user; // need to pull oauth user info
   var lastupdated =  new Date();
-/* */
 
   // Set Collection
   var collection = db.get('listingcollection');
@@ -60,14 +74,20 @@ router.post('/addguild', function(req, res) {
     }
     else {
       // Forward back to /list
-      res.render('list', { title: 'Listings', message: 'Successfully added new listing' });
+      res.redirect('/list');
     }
   });
 });
 
 /* GET Listings page. */
 router.get('/list', function(req, res, next) {
-  res.render('list', { title: 'Listings' });
+  var db = req.db;
+  var collection = db.get('listingcollection');
+
+  // Select guildname from all listings to display via list.dust
+  collection.find({}, { guildname: 1 }, function(e,docs){
+    res.render('list', { title: 'Listings', listing: docs} );
+  });
 });
 
 module.exports = router;
