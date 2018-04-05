@@ -5,19 +5,22 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
   </head>
   <body>
-  <div class="navbar navbar-fixed-top">
-    Call to Arms <ul class="navbar">
-      <li class="navbar"><a href="/">Home</a></li>
-      <li class="navbar"><a href="/list">Listings</a></li>
-      </ul>
-  </div>
-  <div class="content">
-    {+body /}
-  </div>
-  <footer>
-    <div class="container">
-      <p>&copy; Copyright 2018. Call to Arms</p>
+    <header>
+      <div class="navbar navbar-fixed-top">
+        Call to Arms <ul class="navbar">
+          <li class="navbar"><a href="/">Home</a></li>
+          <li class="navbar"><a href="/list">Listings</a></li>
+        </ul>
+      </div>
+    </header>
+    <div class="content">
+      <p>{#message}{.}{/message}</p>
+      {+body /}
     </div>
-  </footer>
+    <footer>
+      <div class="container">
+        <p>&copy; Copyright 2018. Call to Arms</p>
+      </div>
+    </footer>
   </body>
 </html>

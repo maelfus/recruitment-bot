@@ -2,15 +2,19 @@
 {<body}
 <h1>Insert New Listing</h1>
 <div class="row">
-<div class="column">
+<div class="column"><form method="post" action="/addguild">
   <table width="450">
   <tr>
     <th>Guild Name</th>
-    <td><input type="text" name="guildName" value="Guild Name"></td>
+    <td><input type="text" name="guildname" value="Guild Name"></td>
   </tr>
   <tr>
-    <th>Contact</th>
-    <td><input type="text" name="contact" value="Main Contact"></td>
+    <th>Battle.net Contacts (comma seperated)</th>
+    <td><input type="text" name="contactbattlenet" value="Main Contact"></td>
+  </tr>
+  <tr>
+    <th>Discord Contacts (comma seperated)</th>
+    <td><input type="text" name="contactdiscord" value="Main Contact"></td>
   </tr>
   <tr>
     <th>Region</th>
@@ -86,7 +90,7 @@
   <tr>
     <td colspan=2><input type="submit" value="Submit"></td>
   </tr>
-</table></div>
+</table></form></div>
 <div class="column">
   <ul>
   {#listings}<li>{#id /} - {#guildName /} <button>Delete</button> </li>{/listings}
