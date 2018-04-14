@@ -1,1 +1,5 @@
 botweb/data/*
+botweb/node_modules/*
+guidebot/config.js
+guidebot/data/*
+guidebot/node_modules/*
