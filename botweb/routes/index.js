@@ -36,7 +36,19 @@ router.post('/addguild', function(req, res, next) {
   var region = req.body.region;
   var server = req.body.server;
   var faction = req.body.faction;
-  var classes = req.body.classes; // array
+//  var classes = req.body.classes; // array
+  var deathknight = req.body.deathknight;
+  var demonhunter = req.body.demonhunter;
+  var druid = req.body.druid;
+  var hunter = req.body.hunter;
+  var mage = req.body.mage;
+  var monk = req.body.monk;
+  var paladin = req.body.paladin;
+  var priest = req.body.priest;
+  var rogue = req.body.rogue;
+  var shaman = req.body.shaman;
+  var warlock = req.body.warlock;
+  var warrior = req.body.warrior;
   var language = req.body.language;
   var raidtype = req.body.raidtype;
   // var raidtimes = req.body.raidtimes;
@@ -58,7 +70,19 @@ router.post('/addguild', function(req, res, next) {
     "region": region,
     "server": server,
     "faction": faction,
-    "classes": classes,
+//    "classes": classes,
+    "deathknight": deathknight,
+    "demonhunter": demonhunter,
+    "druid": druid,
+    "hunter": hunter,
+    "mage": mage,
+    "monk": monk,
+    "paladin": paladin,
+    "priest": priest,
+    "rogue": rogue,
+    "shaman": shaman,
+    "warlock": warlock,
+    "warrior": warrior,
     "language": language,
     "raidtype": raidtype,
 //    "raidtimes": raidtimes,

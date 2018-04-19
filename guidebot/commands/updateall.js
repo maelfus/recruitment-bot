@@ -12,14 +12,31 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
     .catch((err) => {console.log(err)});
 
   collection.find({}).each((guild, {close, pause, resume}) => {
-      message.channel.send(` == ${guild.guildname} ==
+    var f = "="; //filler character for guildname header outline
+
+    message.channel.send(`
+====${f.repeat(guild.guildname.length)}====
+    ${guild.guildname}
+====${f.repeat(guild.guildname.length)}====
 Contacts  ::
-    Discord : ${guild.contactdiscord}
+    Discord    : ${guild.contactdiscord}
     Battle.net : ${guild.contactbnet}
 Region    :: ${guild.region}
 Server    :: ${guild.server}
 Faction   :: ${guild.faction}
-Classes   :: ${guild.classes}
+Classes   ::
+  • Death Knight : ${guild.deathknight}
+  • Demon Hunter : ${guild.demonhunter}
+  • Druid   : ${guild.druid}
+  • Hunter  : ${guild.hunter}
+  • Mage    : ${guild.mage}
+  • Monk    : ${guild.monk}
+  • Paladin : ${guild.paladin}
+  • Priest  : ${guild.priest}
+  • Rogue   : ${guild.rogue}
+  • Shaman  : ${guild.shaman}
+  • Warlock : ${guild.warlock}
+  • Warrior : ${guild.warrior}
 Language  :: ${guild.language}
 Raid Type :: ${guild.raidtype}
 Progress  :: (NYI)

@@ -41,18 +41,18 @@
   </tr>
   <tr>
     <td colspan=2>
-    Death Knight: Blood<Input type="checkbox" name="classes" value="deathknightblood"> Unholy<input type="checkbox" name="classes" value="deathknightunholy"> Frost<input type="checkbox" name="classes" value="deathknightfrost"><br />
-    Demon Hunter: Havoc<input type="checkbox" name="classes" value="demonhunterhavoc"> Vengeance<input type="checkbox" name="classes" value="demonhuntervengeance"><br />
-    Druid: Balance<input type="checkbox" name="classes" value="druidbalance"> Feral<input type="checkbox" name="classes" value="druidferal"> Guardian<input type="checkbox" name="classes" value="druidguardian"> Restoration<input type="checkbox" name="classes" value="druidrestoration"><br />
-    Hunter: Beast Mastery<input type="checkbox" name="classes" value="hunterbeastmastert"> Marksmanship<input type="checkbox" name="classes" value="huntermarksmanship"> Survival<input type="checkbox" name="classes" value="huntersurvival"><br />
-    Mage: Arcane<input type="checkbox" name="classes" value="magearcane"> Fire<input type="checkbox" name="classes" value="magefire"> Frost<input type="checkbox" name="classes" value="magefrost"><br />
-    Monk: Brewmaster<input type="checkbox" name="classes" value="monkbrewmaster"> Mistweaver<input type="checkbox" name="classes" value="monkmistweaver"> Windwalker<input type="checkbox" name="classes" value="monkwindwalker"><br />
-    Paladin: Holy<input type="checkbox" name="classes" value="paladinholy"> Protection<input type="checkbox" name="classes" value="paladinprotection"> Retribution<input type="checkbox" name="classes" value="paladinprotection"><br />
-    Priest: Discipline<input type="checkbox" name="classes" value="priestdiscipline"> Holy<input type="checkbox" name="classes" value="priestholy"> Shadow<input type="checkbox" name="classes" value="priestshadow"><br />
-    Rogue: Assassination<input type="checkbox" name="classes" value="rogueassassination"> Outlaw<input type="checkbox" name="classes" value="rogueoutlaw"> Subtlety<input type="checkbox" name="classes" value="roguesubtlety"><br />
-    Shaman: Elemental<input type="checkbox" name="classes" value="shamanelemental"> Enhancement<input type="checkbox" name="classes" value="shamanenhancement"> Resto<input type="checkbox" name="classes" value="shamanrestoration"><br />
-    Warlock: Affliction<input type="checkbox" name="classes" value="warlockaffliction"> Demonology<input type="checkbox" name="classes" value="warlockdemonology"> Destruction<input type="checkbox" name="classes" value="warlockdestruction"><br />
-    Warrior: Arms<input type="checkbox" name="classes" value="warriorarms"> Fury<input type="checkbox" name="classes" value="warriorfury"> Protection<input type="checkbox" name="classes" value="warriorprotection"><br />
+    Death Knight: Blood<Input type="checkbox" name="deathknight" value="Blood"> Unholy<input type="checkbox" name="deathknight" value="Unholy"> Frost<input type="checkbox" name="deathknight" value="Frost"><br />
+    Demon Hunter: Havoc<input type="checkbox" name="demonhunter" value="Havoc"> Vengeance<input type="checkbox" name="demonhunter" value="Vengeance"><br />
+    Druid: Balance<input type="checkbox" name="druid" value="Balance"> Feral<input type="checkbox" name="druid" value="Feral"> Guardian<input type="checkbox" name="druid" value="Guardian"> Restoration<input type="checkbox" name="druid" value="Restoration"><br />
+    Hunter: Beast Mastery<input type="checkbox" name="hunter" value="Beast Mastery"> Marksmanship<input type="checkbox" name="hunter" value="Marksmanship"> Survival<input type="checkbox" name="hunter" value="Survival"><br />
+    Mage: Arcane<input type="checkbox" name="mage" value="Arcane"> Fire<input type="checkbox" name="mage" value="Fire"> Frost<input type="checkbox" name="mage" value="Frost"><br />
+    Monk: Brewmaster<input type="checkbox" name="monk" value="Brewmaster"> Mistweaver<input type="checkbox" name="monk" value="Mistweaver"> Windwalker<input type="checkbox" name="monk" value="Windwalker"><br />
+    Paladin: Holy<input type="checkbox" name="paladin" value="Holy"> Protection<input type="checkbox" name="paladin" value="Protecton"> Retribution<input type="checkbox" name="paladin" value="Retribution"><br />
+    Priest: Discipline<input type="checkbox" name="priest" value="Discipline"> Holy<input type="checkbox" name="priest" value="Holy"> Shadow<input type="checkbox" name="priest" value="Shadow"><br />
+    Rogue: Assassination<input type="checkbox" name="rogue" value="Assassination"> Outlaw<input type="checkbox" name="rogue" value="Outlaw"> Subtlety<input type="checkbox" name="rogue" value="Subtlety"><br />
+    Shaman: Elemental<input type="checkbox" name="shaman" value="Elemental"> Enhancement<input type="checkbox" name="shaman" value="Enhancement"> Resto<input type="checkbox" name="shaman" value="Restoration"><br />
+    Warlock: Affliction<input type="checkbox" name="warlock" value="Affliction"> Demonology<input type="checkbox" name="warlock" value="Demonology"> Destruction<input type="checkbox" name="warlock" value="Destruction"><br />
+    Warrior: Arms<input type="checkbox" name="warrior" value="Arms"> Fury<input type="checkbox" name="warrior" value="Fury"> Protection<input type="checkbox" name="warrior" value="Protection"><br />
     </td>
   </tr>
   <tr>
