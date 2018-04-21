@@ -3,15 +3,59 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/botweb');
 var collection = db.get("listingcollection");
-
+var settings = db.get("serversettings");
 
 exports.run = (client, message, args, level) => { //eslint-disable-line no-unused-vars
   message.channel.bulkDelete(100, true)
     .then(messages => console.log(`Deleted ${messages.size} messages.`) )
     .catch((err) => {console.log(err)});
 
+  settings.findOne({ guild: message.guild.id }).then((docs) => {
+    if (!docs) { // If there are no settings listed for this server, set them
+      // First ask for a channel name or id
+      // -----------------CODE ME HERE
+      settings.insert({
+        "guild" : message.guild.id,
+        "classes" : {
+          "deathknight" : false,
+          "demonhunter" : false,
+          "druid" : false,
+          "hunter" : false,
+          "mage" : false,
+          "monk" : false,
+          "paladin" : false,
+          "priest" : false,
+          "rogue" : false,
+          "shaman" : false,
+          "warlock" : false,
+          "warrior" : false
+        },
+        "channel" : "" // I need to be set properly
+      })
+      var classes = {
+        deathknight : false,
+        demonhunter : false,
+        druid : false,
+        hunter : false,
+        mage : false,
+        monk : false,
+        paladin : false,
+        priest : false,
+        rogue : false,
+        shaman : false,
+        warlock : false,
+        warrior : false
+      };
+      var rchannel = ''; //I need to be set properly
+    } else {
+      // otherwise save class settings
+      var classes = docs.classes;
+      var rchannel = docs.channel;
+    }
+  });
+
   // Get Server Settings
-  var classes = message.settings;
+  //var classes = message.settings;
 
   collection.find({}).each((guild, {close, pause, resume}) => {
     // Filtering and Formatting for Classes
