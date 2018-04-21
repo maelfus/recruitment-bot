@@ -1,8 +1,8 @@
 // DB Connect
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/botweb');
-var settings = db.get("serversettings");
+const mongo = require('mongodb');
+const monk = require('monk');
+const db = monk('localhost:27017/botweb');
+const settings = db.get("serversettings");
 
 
 exports.run = (client, message, args, level) => {

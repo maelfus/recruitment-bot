@@ -10,8 +10,8 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
     .then(messages => console.log(`Deleted ${messages.size} messages.`) )
     .catch((err) => {console.log(err)});
 
-  let classes;
-  let rchannel;
+  let classes = {};
+  let rchannel = '';
 
   async () => {
     await settings.findOne({ serverid: message.guild.id }).then((docs) => {
