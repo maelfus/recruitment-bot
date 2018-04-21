@@ -13,52 +13,52 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
   let classes = {};
   let rchannel = '';
 
-  async () => {
-    await settings.findOne({ serverid: message.guild.id }).then((docs) => {
-      if (!docs) {
-        // If there are no settings listed for this server, set them in the db
-        settings.insert({
-          "serverid" : message.guild.id,
-          "classes" : {
-            "deathknight" : false,
-            "demonhunter" : false,
-            "druid" : false,
-            "hunter" : false,
-            "mage" : false,
-            "monk" : false,
-            "paladin" : false,
-            "priest" : false,
-            "rogue" : false,
-            "shaman" : false,
-            "warlock" : false,
-            "warrior" : false
-          },
-          "channel" : message.channel.id
-        })
-        // Then set them for use here
-        classes = {
-          deathknight : false,
-          demonhunter : false,
-          druid : false,
-          hunter : false,
-          mage : false,
-          monk : false,
-          paladin : false,
-          priest : false,
-          rogue : false,
-          shaman : false,
-          warlock : false,
-          warrior : false
-        };
-        rchannel = message.channel.id;
-      } else {
-        // otherwise save class and channel settings
-        classes = docs.classes;
-        rchannel = docs.channel;
-      }
-    });
-
-    // Check to make the request was made in the correct channel
+ settings.findOne({ serverid: message.guild.id }).then((docs) => {
+    if (!docs) {
+      console.log('test !docs');
+      // If there are no settings listed for this server, set them in the db
+      settings.insert({
+        "serverid" : message.guild.id,
+        "classes" : {
+          "deathknight" : false,
+          "demonhunter" : false,
+          "druid" : false,
+          "hunter" : false,
+          "mage" : false,
+          "monk" : false,
+          "paladin" : false,
+          "priest" : false,
+          "rogue" : false,
+          "shaman" : false,
+          "warlock" : false,
+          "warrior" : false
+        },
+        "channel" : message.channel.id
+      });
+      // Then set them for use here
+      classes = {
+        deathknight : false,
+        demonhunter : false,
+        druid : false,
+        hunter : false,
+        mage : false,
+        monk : false,
+        paladin : false,
+        priest : false,
+        rogue : false,
+        shaman : false,
+        warlock : false,
+        warrior : false
+      };
+      rchannel = message.channel.id;
+    } else {
+      console.log('test');
+      // otherwise save class and channel settings
+      classes = docs.classes;
+      rchannel = docs.channel;
+    }
+  }).then(() => {
+  // Check to make the request was made in the correct channel
     if ( message.channel.id != rchannel ) {
       message.channel.send(`Wrong channel, dufus!`);
     } else { // Start pulling and sending relevant guild listings
@@ -78,8 +78,9 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
         classList += classes.warlock == true     ? `\n  • Warlock : ${guild.warlock.join(", ")}` : ``;
         classList += classes.warrior == true     ? `\n  • Warrior : ${guild.warrior.join(", ")}` : ``;
 
+        if (classList !== '') {
         // Send formatted recruiting post to channel
-        message.channel.send(`= ${guild.guildname} =
+          message.channel.send(`= ${guild.guildname} =
 
 Contacts  ::
   • Discord    : ${guild.contactdiscord}
@@ -104,11 +105,12 @@ Website   :: ${guild.website}
 Description ::
 ${guild.description}
 ID        ::  ${guild._id}`, {code: "asciidoc"});
+        }
       }).then(() => {
         message.channel.send(`To have your guild listed, visit http://127.0.0.1:3000/`);
       }).catch((err) => { console.log(err) });
     }
-}
+  });
 };
 
 exports.conf = {
