@@ -10,11 +10,14 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
     .then(messages => console.log(`Deleted ${messages.size} messages.`) )
     .catch((err) => {console.log(err)});
 
-  settings.findOne({ guild: message.guild.id }).then((docs) => {
+  var classes;
+  var rchannel;
+
+  settings.findOne({ serverid: message.guild.id }).then((docs) => {
     if (!docs) {
       // If there are no settings listed for this server, set them in the db
       settings.insert({
-        "guild" : message.guild.id,
+        "serverid" : message.guild.id,
         "classes" : {
           "deathknight" : false,
           "demonhunter" : false,
@@ -29,10 +32,10 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
           "warlock" : false,
           "warrior" : false
         },
-        "channel" : message.channel.id;
+        "channel" : message.channel.id
       })
       // Then set them for use here
-      var classes = {
+      classes = {
         deathknight : false,
         demonhunter : false,
         druid : false,
@@ -46,11 +49,11 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
         warlock : false,
         warrior : false
       };
-      var rchannel = message.channel.id;
+      rchannel = message.channel.id;
     } else {
-      // otherwise save class settings
-      var classes = docs.classes;
-      var rchannel = docs.channel;
+      // otherwise save class and channel settings
+      classes = docs.classes;
+      rchannel = docs.channel;
     }
   });
 
