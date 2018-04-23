@@ -28,7 +28,7 @@ exports.run = (client, message, args, level) => {
   }
 
   settings.findOneAndUpdate( { "serverid" : message.guild.id }, { "serverid" : message.guild.id, "classes" : classes, "channel": message.channel.id })
-    .then(() => { message.channel.send(`Updated class settings!`); });
+    .then(() => { message.channel.send(`Updated class settings! Filter set to: ${Object.keys(classes).join(", ")} (update report isnt working yet, please ignore)`); });
 
 };
 exports.conf = {

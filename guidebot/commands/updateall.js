@@ -82,9 +82,6 @@ exports.run = (client, message, args, level) => { //eslint-disable-line no-unuse
         // Send formatted recruiting post to channel
           message.channel.send(`= ${guild.guildname} =
 
-Contacts  ::
-  • Discord    : ${guild.contactdiscord}
-  • Battle.net : ${guild.contactbnet}
 Region    :: ${guild.region}
 Server    :: ${guild.server}
 Faction   :: ${guild.faction}
@@ -100,6 +97,9 @@ Raid Times:: (NYI)
   •
   •
   •
+Contacts  ::
+    • Discord    : ${guild.contactdiscord}
+    • Battle.net : ${guild.contactbnet}
 Discord   :: ${guild.discordlink}
 Website   :: ${guild.website}
 Description ::
@@ -107,6 +107,7 @@ ${guild.description}
 ID        ::  ${guild._id}`, {code: "asciidoc"});
         }
       }).then(() => {
+        message.channel.send(`Listings expire after 2 weeks.  Don't forget to update them regularly!`);
         message.channel.send(`To have your guild listed, visit http://127.0.0.1:3000/`);
       }).catch((err) => { console.log(err) });
     }
