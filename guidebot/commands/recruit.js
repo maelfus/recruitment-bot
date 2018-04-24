@@ -24,11 +24,18 @@ exports.run = (client, message, args, level) => {
 
   // set our args to the classes obj (ignore the 'random' property)
   for ( i in args ) {
-    if (i != "random") { classes[args[i]] = true; }
+    console.log(args[i]);
+    classes.hasOwnProperty(args[i]) ? classes[args[i]] = true : typeof args[i] !== 'function' ? message.channel.send(`Invalid class, ${args[i]}, skipping...`) : null;
   }
 
   settings.findOneAndUpdate( { "serverid" : message.guild.id }, { "serverid" : message.guild.id, "classes" : classes, "channel": message.channel.id })
-    .then(() => { message.channel.send(`Updated class settings! Filter set to: ${Object.keys(classes).join(", ")} (update report isnt working yet, please ignore)`); });
+    .then(() => {
+      let reportClasses = '';
+      for ( i in classes ) {
+        classes[i] === true ? reportClasses += `${i} `: null;
+      }
+      message.channel.send(`Updated class settings! Filter set to: ${reportClasses}`);
+    });
 
 };
 exports.conf = {
