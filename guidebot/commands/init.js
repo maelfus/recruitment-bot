@@ -6,8 +6,8 @@ const settings = db.get("serversettings");
 
 
 exports.run = async (client, message, args, level) => {
-  if ( await settings.findOne( { "serverid" : message.guild.id } ) == null) {
-    try {
+  try {
+    if ( await settings.findOne( { "serverid" : message.guild.id } ) == null) {
       await message.channel.send(`Starting initialization...`);
 
       let response = {};
@@ -17,7 +17,6 @@ exports.run = async (client, message, args, level) => {
       // check response.channel input, strip additional characters and test for channel existence
       let channel = response.channel.slice(2,20);
       if (!message.guild.channels.has(channel)) throw "Invalid Channel.";
-
 
       // split response.filter and format for insertion. (validate against options)
       let split = response.filter.split(" ");
@@ -36,15 +35,15 @@ exports.run = async (client, message, args, level) => {
         warrior: false
       };
       for ( i in split ) {
-        classes.hasOwnProperty(split[i]) ? classes[split[i]] = true : message.channel.send(`Invalid class, ${split[i]}, skipping...`);
+        classes.hasOwnProperty(split[i]) ? classes[split[i]] = true : typeof split[i] !== 'function' ? message.channel.send(`Invalid class, ${split[i]}, skipping...`) : null;
       }
       // Insert new settings into the db
       settings.insert({ "serverid" : message.guild.id, "classes" : classes, "channel" : channel });
-    } catch (e) {
-      message.channel.send(`${e}`);
+    } else {
+      throw `Settings already exist for this server.  Use \`recruit\` and \`channel\` commands to update your server options.`;
     }
-  } else {
-    message.channel.send(`Settings already exist for this server.  Use \`recruit\` and \`channel\` commands to update your server options.`);
+  } catch (e) {
+    message.channel.send(`${e}`);
   }
 };
 
