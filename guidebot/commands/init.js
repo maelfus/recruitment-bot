@@ -43,7 +43,7 @@ exports.run = async (client, message, args, level) => {
       throw `Settings already exist for this server.  Use \`recruit\` and \`channel\` commands to update your server options.`;
     }
   } catch (e) {
-    message.channel.send(`${e}`);
+    await message.channel.send(e);
   }
 };
 
