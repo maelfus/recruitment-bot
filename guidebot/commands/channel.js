@@ -10,7 +10,7 @@ exports.run = async (client, message, args, level) => {
     let oldSettings = await settings.findOne({ serverid : message.guild.id }, {});
 
     if (oldSettings == null) {
-      throw No settings available for this server. Use \`init\` to configure.`;
+      throw "No settings available for this server. Use \`init\` to configure";
     } else {
       let channel = args[0].slice(2, 20);
 
@@ -19,11 +19,11 @@ exports.run = async (client, message, args, level) => {
         await settings.findOneAndUpdate( {serverid : message.guild.id} , oldSettings );
         message.channel.send(`Channel settings updated!`);
       } else {
-        throw `Invalid Channel: Please try again.`;
+        throw "Invalid Channel. Pleast try again.";
       }
     }
   } catch (e) {
-    message.channel.send(e);
+    await message.channel.send(e);
   }
 };
 
