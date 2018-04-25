@@ -35,7 +35,7 @@ exports.run = async (client, message, args, level) => {
         warrior: false
       };
       for ( i in split ) {
-        classes.hasOwnProperty(split[i]) ? classes[split[i]] = true : typeof split[i] !== 'function' ? message.channel.send(`Invalid class, ${split[i]}, skipping...`) : null;
+        typeof split[i] === 'function' ? null : classes.hasOwnProperty(split[i].toLowerCase()) ? classes[split[i].toLowerCase()] = true : message.channel.send(`Invalid class, ${split[i]}, skipping...`);
       }
       // Insert new settings into the db
       settings.insert({ "serverid" : message.guild.id, "classes" : classes, "channel" : channel });
