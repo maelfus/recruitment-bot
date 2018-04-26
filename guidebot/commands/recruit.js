@@ -31,7 +31,6 @@ exports.run = async (client, message, args, level) => {
       // set our args to the classes obj (ignore the 'random' property)
       for ( i in args ) {
         typeof args[i] === 'function' ? null : classes.hasOwnProperty(args[i].toLowerCase()) ? classes[args[i].toLowerCase()] = true : await message.channel.send(`Invalid class, ${args[i]}, skipping...`);
-        //classes.hasOwnProperty(args[i].toLowerCase()) ? classes[args[i].toLowerCase()] = true : typeof args[i] !== 'function' ? await message.channel.send(`Invalid class, ${args[i]}, skipping...`) : null;
       }
       // Update server settings for the new class filter and report to channel
       await settings.findOneAndUpdate( { "serverid" : message.guild.id }, { "serverid" : message.guild.id, "classes" : classes, "channel": oldSettings.channel });
