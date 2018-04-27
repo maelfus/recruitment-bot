@@ -18,6 +18,7 @@ router.post('/removeguild', function(req, res, next) {
       req.send('An error occured while removing listing');
     }
     else {
+      ws.send(`delete,${doc.body.id}`);
       // Forward back to /list
       res.redirect('/list');
     }
