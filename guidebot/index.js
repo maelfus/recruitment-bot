@@ -24,7 +24,6 @@ const wss = new WebSocket.Server({
 });
 
 wss.on('connection', function connection(ws) {
-  console.log('connection made');
   ws.on('message', function incoming(data) {
     console.log(`Received: ${data}`);
   });

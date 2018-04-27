@@ -99,7 +99,6 @@ router.post('/addguild', function(req, res, next) {
     }
     else {
       // Send notification to bot that a new guild was listed.
-
         ws.send(`update,${doc._id}`);
 
       // Forward back to /list
