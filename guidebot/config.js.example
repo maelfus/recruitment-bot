@@ -25,21 +25,6 @@ const config = {
     "welcomeChannel": "welcome",
     "welcomeMessage": "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :D",
     "welcomeEnabled": "false",
-    "recruitDeathKnight": "false",
-    "recruitDemonHunter": "false",
-    "recruitDruid": "false",
-    "recruitHunter": "false",
-    "recruitMage": "false",
-    "recruitMonk": "false",
-    "recruitPaladin": "false",
-    "recruitPriest": "false",
-    "recruitRogue": "false",
-    "recruitShaman": "false",
-    "recruitWarlock": "false",
-    "recruitWarrior": "false",
-    "recruitTanks": "false",
-    "recruitHealers": "false",
-    "recruitDps": "false"
   },
 
   // PERMISSION LEVEL DEFINITIONS.

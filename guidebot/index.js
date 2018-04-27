@@ -11,6 +11,26 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 
+// WebSocket Server for handling requests from the web front end
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({
+  port: 9001,
+  verifyClient:  function (info) {
+    if (info.req.connection.remoteAddress === '::ffff:127.0.0.1') { return true; } else {
+      console.log(info.req.connection.remoteAddress);
+      return false;
+    }
+  }
+});
+
+wss.on('connection', function connection(ws) {
+  console.log('connection made');
+  ws.on('message', function incoming(data) {
+    console.log(`Received: ${data}`);
+  });
+});
+
+
 // This is your client. Some people call it `bot`, some people call it `self`,
 // some might call it `cootchie`. Either way, when you see `client.something`,
 // or `bot.something`, this is what we're refering to. Your client.

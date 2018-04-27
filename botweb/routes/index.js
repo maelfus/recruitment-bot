@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+const WebSocket = require('ws');
+const ws = new WebSocket('ws://127.0.0.1:9001');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -97,6 +98,10 @@ router.post('/addguild', function(req, res, next) {
       req.send('An error occured while inserting new listing');
     }
     else {
+      // Send notification to bot that a new guild was listed.
+
+        ws.send(`update,${doc._id}`);
+
       // Forward back to /list
       res.redirect('/list');
     }
