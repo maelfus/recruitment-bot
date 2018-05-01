@@ -18,7 +18,7 @@ router.post('/removeguild', function(req, res, next) {
       req.send('An error occured while removing listing');
     }
     else {
-      ws.send(`delete,${doc.body.id}`);
+      ws.send(`delete,${req.body.id}`);
       // Forward back to /list
       res.redirect('/list');
     }
@@ -31,6 +31,15 @@ router.post('/addguild', function(req, res, next) {
   // Set DB
   var db = req.db;
 
+  // function for typechecking and converting req.body.<class> to an array
+  function arrayClass(c) {
+    if (Array.isArray(c)) {
+      return c;
+    } else {
+      return Array.from([c]);
+    }
+  }
+
   // Gather FORM variables
   var guildname = req.body.guildname;
   var contactbnet = req.body.contactbnet;
@@ -38,19 +47,18 @@ router.post('/addguild', function(req, res, next) {
   var region = req.body.region;
   var server = req.body.server;
   var faction = req.body.faction;
-//  var classes = req.body.classes; // array
-  var deathknight = req.body.deathknight;
-  var demonhunter = req.body.demonhunter;
-  var druid = req.body.druid;
-  var hunter = req.body.hunter;
-  var mage = req.body.mage;
-  var monk = req.body.monk;
-  var paladin = req.body.paladin;
-  var priest = req.body.priest;
-  var rogue = req.body.rogue;
-  var shaman = req.body.shaman;
-  var warlock = req.body.warlock;
-  var warrior = req.body.warrior;
+  var deathknight = arrayClass(req.body.deathknight);
+  var demonhunter = arrayClass(req.body.demonhunter);
+  var druid = arrayClass(req.body.druid);
+  var hunter = arrayClass(req.body.hunter);
+  var mage = arrayClass(req.body.mage);
+  var monk = arrayClass(req.body.monk);
+  var paladin = arrayClass(req.body.paladin);
+  var priest = arrayClass(req.body.priest);
+  var rogue = arrayClass(req.body.rogue);
+  var shaman = arrayClass(req.body.shaman);
+  var warlock = arrayClass(req.body.warlock);
+  var warrior = arrayClass(req.body.warrior);
   var language = req.body.language;
   var raidtype = req.body.raidtype;
   // var raidtimes = req.body.raidtimes;
@@ -59,7 +67,7 @@ router.post('/addguild', function(req, res, next) {
   var website = req.body.website;
   var description = req.body.description;
   // var user = req.body.user; // need to pull oauth user info
-  var lastupdated =  new Date();
+  var lastupdated = new Date();
 
   // Set Collection
   var collection = db.get('listingcollection');
@@ -72,7 +80,6 @@ router.post('/addguild', function(req, res, next) {
     "region": region,
     "server": server,
     "faction": faction,
-//    "classes": classes,
     "deathknight": deathknight,
     "demonhunter": demonhunter,
     "druid": druid,

@@ -23,9 +23,98 @@ const wss = new WebSocket.Server({
   }
 });
 
+// DB Setup
+const mongo = require('mongodb');
+const monk = require('monk');
+const db = monk('localhost:27017/botweb');
+const listings = db.get("listingcollection");
+const settings = db.get("serversettings");
+const messagelist = db.get("messagelistings");
+const backlog = db.get("backlog");
+
+// Handle incoming data pushes from Express
 wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(data) {
-    console.log(`Received: ${data}`);
+  ws.on('message', async function incoming(data) {
+    try {
+    // break the string sent in 'data' into a serviceable array 'req'
+    // incoming data should look something like this: 'update,012345678901234567'
+    let req = data.split(",");
+    if ( req[0] == 'update') {
+          let listingDetails = await listings.findOne({ _id : req[1]});
+
+           client.guilds.forEach( async (guild) => {
+            if (guild.available) {
+              // Pull necessary data from the DB
+              let serverSettings = await settings.findOne({ serverid: guild.id });
+              // Send the new guild listing to the correct channel
+              // Filtering and Formatting for Classes
+              let classList = '';
+              classList += serverSettings.classes.deathknight == true && listingDetails.deathknight != null ? `\n  • Death Knight : ${listingDetails.deathknight.join(", ")}` : ``;
+              classList += serverSettings.classes.demonhunter == true && listingDetails.demonhunter != null ? `\n  • Demon Hunter : ${listingDetails.demonhunter.join(", ")}` : ``;
+              classList += serverSettings.classes.druid == true && listingDetails.druid != null             ? `\n  • Druid   : ${listingDetails.druid.join(", ")}` : ``;
+              classList += serverSettings.classes.hunter == true && listingDetails.hunter != null           ? `\n  • Hunter  : ${listingDetails.hunter.join(", ")}` : ``;
+              classList += serverSettings.classes.mage == true && listingDetails.mage != null               ? `\n  • Mage    : ${listingDetails.mage.join(", ")}` : ``;
+              classList += serverSettings.classes.monk == true && listingDetails.monk != null               ? `\n  • Monk    : ${listingDetails.monk.join(", ")}` : ``;
+              classList += serverSettings.classes.paladin == true && listingDetails.paladin != null         ? `\n  • Paladin : ${listingDetails.paladin.join(", ")}` : ``;
+              classList += serverSettings.classes.priest == true && listingDetails.priest != null           ? `\n  • Priest  : ${listingDetails.priest.join(", ")}` : ``;
+              classList += serverSettings.classes.rogue == true && listingDetails.rogue != null             ? `\n  • Rogue   : ${listingDetails.rogue.join(", ")}` : ``;
+              classList += serverSettings.classes.shaman == true && listingDetails.shaman != null           ? `\n  • Shaman  : ${listingDetails.shaman.join(", ")}` : ``;
+              classList += serverSettings.classes.warlock == true && listingDetails.warlock != null         ? `\n  • Warlock : ${listingDetails.warlock.join(", ")}` : ``;
+              classList += serverSettings.classes.warrior == true && listingDetails.warrior != null         ? `\n  • Warrior : ${listingDetails.warrior.join(", ")}` : ``;
+
+              if (classList !== '') {
+              // Send formatted recruiting post to channel
+                let m = await guild.channels.get(serverSettings.channel).send(`= ${listingDetails.guildname} =
+
+Region    :: ${listingDetails.region}
+Server    :: ${listingDetails.server}
+Faction   :: ${listingDetails.faction}
+Classes   :: ${classList}
+Language  :: ${listingDetails.language}
+Raid Type :: ${listingDetails.raidtype}
+Progress  :: (NYI)
+Raid Times:: (NYI)
+    •
+    •
+    •
+    •
+    •
+    •
+    •
+Contacts  ::
+    • Discord    : ${listingDetails.contactdiscord}
+    • Battle.net : ${listingDetails.contactbnet}
+Discord   :: ${listingDetails.discordlink}
+Website   :: ${listingDetails.website}
+Description ::
+${listingDetails.description}
+ID        ::  ${listingDetails._id}`, {code: "asciidoc"});
+                 messagelist.insert({listing: listingDetails._id, server: guild.id, channel: serverSettings.channel, message: m.id });
+              }
+            } else {
+              // add it to the backlog with 'guild.id' and listing id
+              backlog.insert({server : guild.id, listing: listingDetails._id, method: 'update'});
+            }
+          });
+    } else if (req[0] == 'delete') {
+      // Delete all messages from given a specific listing.
+      // This currently responds to the delete button on the website, but will be a model for expired listings.
+      let messages = await messagelist.find({listing: monk.id(req[1])});
+      console.log(req[1]);
+      console.log(messages);
+      messages.forEach( async (msg) => {
+        if (client.guilds.get(msg.server).available) {
+          try {
+            let del = await client.guilds.get(msg.server).channels.get(msg.channel).fetchMessage(msg.message);
+            del.delete();
+            await messagelist.findOneAndDelete({message: msg.message});
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      });
+    }
+  } catch (e) {console.log(e);}
   });
 });
 
