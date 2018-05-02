@@ -47,20 +47,20 @@ wss.on('connection', function connection(ws) {
               // Pull necessary data from the DB
               let serverSettings = await settings.findOne({ serverid: guild.id });
               // Send the new guild listing to the correct channel
-              // Filtering and Formatting for Classes
+              // Filtering and Formatting for Classe
               let classList = '';
-              classList += serverSettings.classes.deathknight == true && listingDetails.deathknight != null ? `\n  • Death Knight : ${listingDetails.deathknight.join(", ")}` : ``;
-              classList += serverSettings.classes.demonhunter == true && listingDetails.demonhunter != null ? `\n  • Demon Hunter : ${listingDetails.demonhunter.join(", ")}` : ``;
-              classList += serverSettings.classes.druid == true && listingDetails.druid != null             ? `\n  • Druid   : ${listingDetails.druid.join(", ")}` : ``;
-              classList += serverSettings.classes.hunter == true && listingDetails.hunter != null           ? `\n  • Hunter  : ${listingDetails.hunter.join(", ")}` : ``;
-              classList += serverSettings.classes.mage == true && listingDetails.mage != null               ? `\n  • Mage    : ${listingDetails.mage.join(", ")}` : ``;
-              classList += serverSettings.classes.monk == true && listingDetails.monk != null               ? `\n  • Monk    : ${listingDetails.monk.join(", ")}` : ``;
-              classList += serverSettings.classes.paladin == true && listingDetails.paladin != null         ? `\n  • Paladin : ${listingDetails.paladin.join(", ")}` : ``;
-              classList += serverSettings.classes.priest == true && listingDetails.priest != null           ? `\n  • Priest  : ${listingDetails.priest.join(", ")}` : ``;
-              classList += serverSettings.classes.rogue == true && listingDetails.rogue != null             ? `\n  • Rogue   : ${listingDetails.rogue.join(", ")}` : ``;
-              classList += serverSettings.classes.shaman == true && listingDetails.shaman != null           ? `\n  • Shaman  : ${listingDetails.shaman.join(", ")}` : ``;
-              classList += serverSettings.classes.warlock == true && listingDetails.warlock != null         ? `\n  • Warlock : ${listingDetails.warlock.join(", ")}` : ``;
-              classList += serverSettings.classes.warrior == true && listingDetails.warrior != null         ? `\n  • Warrior : ${listingDetails.warrior.join(", ")}` : ``;
+              classList += serverSettings.classes.deathknight == true && listingDetails.deathknight[0] != undefined ? `\n  • Death Knight : ${listingDetails.deathknight.join(", ")}` : ``;
+              classList += serverSettings.classes.demonhunter == true && listingDetails.demonhunter[0] != undefined ? `\n  • Demon Hunter : ${listingDetails.demonhunter.join(", ")}` : ``;
+              classList += serverSettings.classes.druid == true && listingDetails.druid[0] != undefined             ? `\n  • Druid   : ${listingDetails.druid.join(", ")}` : ``;
+              classList += serverSettings.classes.hunter == true && listingDetails.hunter[0] != undefined           ? `\n  • Hunter  : ${listingDetails.hunter.join(", ")}` : ``;
+              classList += serverSettings.classes.mage == true && listingDetails.mage[0] != undefined               ? `\n  • Mage    : ${listingDetails.mage.join(", ")}` : ``;
+              classList += serverSettings.classes.monk == true && listingDetails.monk[0] != undefined               ? `\n  • Monk    : ${listingDetails.monk.join(", ")}` : ``;
+              classList += serverSettings.classes.paladin == true && listingDetails.paladin[0] != undefined         ? `\n  • Paladin : ${listingDetails.paladin.join(", ")}` : ``;
+              classList += serverSettings.classes.priest == true && listingDetails.priest[0] != undefined           ? `\n  • Priest  : ${listingDetails.priest.join(", ")}` : ``;
+              classList += serverSettings.classes.rogue == true && listingDetails.rogue[0] != undefined             ? `\n  • Rogue   : ${listingDetails.rogue.join(", ")}` : ``;
+              classList += serverSettings.classes.shaman == true && listingDetails.shaman[0] != undefined           ? `\n  • Shaman  : ${listingDetails.shaman.join(", ")}` : ``;
+              classList += serverSettings.classes.warlock == true && listingDetails.warlock[0] != undefined         ? `\n  • Warlock : ${listingDetails.warlock.join(", ")}` : ``;
+              classList += serverSettings.classes.warrior == true && listingDetails.warrior[0] != undefined         ? `\n  • Warrior : ${listingDetails.warrior.join(", ")}` : ``;
 
               if (classList !== '') {
               // Send formatted recruiting post to channel
@@ -100,8 +100,7 @@ ID        ::  ${listingDetails._id}`, {code: "asciidoc"});
       // Delete all messages from given a specific listing.
       // This currently responds to the delete button on the website, but will be a model for expired listings.
       let messages = await messagelist.find({listing: monk.id(req[1])});
-      console.log(req[1]);
-      console.log(messages);
+
       messages.forEach( async (msg) => {
         if (client.guilds.get(msg.server).available) {
           try {
