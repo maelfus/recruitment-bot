@@ -40,7 +40,7 @@ async function postListing(listing, settings) {
 
   if (classList !== '') {
   // Send formatted recruiting post to channel
-  
+
     let m = await client.guilds.get(settings.serverid).channels.get(settings.channel).send(`= ${listing.guildname} =
 
 Region    :: ${listing.region}
@@ -83,40 +83,59 @@ const backlog = db.get("backlog");
 wss.on('connection', function connection(ws) {
   ws.on('message', async function incoming(data) {
     try {
-    // break the string sent in 'data' into a serviceable array 'req'
-    // incoming data should look something like this: 'update,012345678901234567'
-    let req = data.split(",");
-    if ( req[0] == 'update') {
-          let listingDetails = await listings.findOne({ _id : req[1]});
-
-           client.guilds.forEach( async (guild) => {
-            if (guild.available) {
-              // Pull necessary data from the DB
-              let serverSettings = await settings.findOne({ serverid: guild.id });
-              let post = postListing(listingDetails, serverSettings);
-            } else {
-              // add it to the backlog with 'guild.id' and listing id
-              backlog.insert({server : guild.id, listing: listingDetails._id, method: 'update'});
-            }
-          });
-    } else if (req[0] == 'delete') {
-      // Delete all messages from given a specific listing.
-      // This currently responds to the delete button on the website, but will be a model for expired listings.
-      let messages = await messagelist.find({listing: monk.id(req[1])});
-
-      messages.forEach( async (msg) => {
-        if (client.guilds.get(msg.server).available) {
-          try {
-            let del = await client.guilds.get(msg.server).channels.get(msg.channel).fetchMessage(msg.message);
-            del.delete();
-            await messagelist.findOneAndDelete({message: msg.message});
-          } catch (e) {
-            console.log(e);
-          }
+      // Lets deal with the backlog...
+      let bl = await backlog.find({});
+      bl.forEach( async (item) => {
+        let listingDetails = await listings.findOne({ _id : item.listing});
+        let serverSettings = await settings.findOne({ serverid: item.server});
+        if (item.method === 'update' && client.guilds.get(item.server).available) {
+          let post = postListing(listingDetails, serverSettings);
+          backlog.findOneAndDelete({_id: tem._id});
+        } else if (item.method === 'delete' && client.guilds.get(item.server).available) {
+          //figure out backlog deletion when I get around to it.
+          let del = await client.guilds.get(item.server).channels.get(serverSettings.channel).fetchMessage(item.message);
+          del.delete();
+          await messagelist.findOneAndDelete({message: item.message});
+          await backlog.findOneAndDelete({_id: item._id});
         }
       });
-    }
-  } catch (e) {console.log(e);}
+
+      // Now deal with the original message request...
+      // break the string sent in 'data' into a serviceable array 'req'
+      // incoming data should look something like this: 'update,012345678901234567'
+      let req = data.split(",");
+      if ( req[0] == 'update') {
+        let listingDetails = await listings.findOne({ _id : req[1]});
+
+        client.guilds.forEach( async (guild) => {
+          if (guild.available) {
+            // Pull necessary data from the DB
+            let serverSettings = await settings.findOne({ serverid: guild.id });
+            let post = postListing(listingDetails, serverSettings);
+          } else {
+            // add it to the backlog with 'guild.id' and listing id
+            backlog.insert({server : guild.id, listing: listingDetails._id, method: 'update'});
+          }
+        });
+      } else if (req[0] == 'delete') {
+        // Delete all messages from channels given a specific listing.
+        // This currently responds to the delete button on the website, but will be a model for expired listings.
+        let messages = await messagelist.find({listing: monk.id(req[1])});
+
+        messages.forEach( async (msg) => {
+          if (client.guilds.get(msg.server).available) {
+            try {
+              let del = await client.guilds.get(msg.server).channels.get(msg.channel).fetchMessage(msg.message);
+              del.delete();
+              await messagelist.findOneAndDelete({message: msg.message});
+            } catch (e) {console.log(e);}
+          } else {
+            // add it to the backlog for deletion...
+            backlog.insert({server : msg.server, message: msg.message, method: 'delete' });
+          }
+        });
+      }
+    } catch (e) {console.log(e);}
   });
 });
 
