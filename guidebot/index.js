@@ -23,6 +23,53 @@ const wss = new WebSocket.Server({
   }
 });
 
+async function postListing(listing, settings) {
+  let classList = '';
+  classList += settings.classes.deathknight == true && listing.deathknight[0] != undefined ? `\n  • Death Knight : ${listing.deathknight.join(", ")}` : ``;
+  classList += settings.classes.demonhunter == true && listing.demonhunter[0] != undefined ? `\n  • Demon Hunter : ${listing.demonhunter.join(", ")}` : ``;
+  classList += settings.classes.druid == true && listing.druid[0] != undefined             ? `\n  • Druid   : ${listing.druid.join(", ")}` : ``;
+  classList += settings.classes.hunter == true && listing.hunter[0] != undefined           ? `\n  • Hunter  : ${listing.hunter.join(", ")}` : ``;
+  classList += settings.classes.mage == true && listing.mage[0] != undefined               ? `\n  • Mage    : ${listing.mage.join(", ")}` : ``;
+  classList += settings.classes.monk == true && listing.monk[0] != undefined               ? `\n  • Monk    : ${listing.monk.join(", ")}` : ``;
+  classList += settings.classes.paladin == true && listing.paladin[0] != undefined         ? `\n  • Paladin : ${listing.paladin.join(", ")}` : ``;
+  classList += settings.classes.priest == true && listing.priest[0] != undefined           ? `\n  • Priest  : ${listing.priest.join(", ")}` : ``;
+  classList += settings.classes.rogue == true && listing.rogue[0] != undefined             ? `\n  • Rogue   : ${listing.rogue.join(", ")}` : ``;
+  classList += settings.classes.shaman == true && listing.shaman[0] != undefined           ? `\n  • Shaman  : ${listing.shaman.join(", ")}` : ``;
+  classList += settings.classes.warlock == true && listing.warlock[0] != undefined         ? `\n  • Warlock : ${listing.warlock.join(", ")}` : ``;
+  classList += settings.classes.warrior == true && listing.warrior[0] != undefined         ? `\n  • Warrior : ${listing.warrior.join(", ")}` : ``;
+
+  if (classList !== '') {
+  // Send formatted recruiting post to channel
+  
+    let m = await client.guilds.get(settings.serverid).channels.get(settings.channel).send(`= ${listing.guildname} =
+
+Region    :: ${listing.region}
+Server    :: ${listing.server}
+Faction   :: ${listing.faction}
+Classes   :: ${classList}
+Language  :: ${listing.language}
+Raid Type :: ${listing.raidtype}
+Progress  :: (NYI)
+Raid Times:: (NYI)
+•
+•
+•
+•
+•
+•
+•
+Contacts  ::
+• Discord    : ${listing.contactdiscord}
+• Battle.net : ${listing.contactbnet}
+Discord   :: ${listing.discordlink}
+Website   :: ${listing.website}
+Description ::
+${listing.description}
+ID        ::  ${listing._id}`, {code: "asciidoc"});
+     return messagelist.insert({listing: listing._id, server: settings.serverid, channel: settings.channel, message: m.id });
+   }
+};
+
 // DB Setup
 const mongo = require('mongodb');
 const monk = require('monk');
@@ -46,51 +93,7 @@ wss.on('connection', function connection(ws) {
             if (guild.available) {
               // Pull necessary data from the DB
               let serverSettings = await settings.findOne({ serverid: guild.id });
-              // Send the new guild listing to the correct channel
-              // Filtering and Formatting for Classe
-              let classList = '';
-              classList += serverSettings.classes.deathknight == true && listingDetails.deathknight[0] != undefined ? `\n  • Death Knight : ${listingDetails.deathknight.join(", ")}` : ``;
-              classList += serverSettings.classes.demonhunter == true && listingDetails.demonhunter[0] != undefined ? `\n  • Demon Hunter : ${listingDetails.demonhunter.join(", ")}` : ``;
-              classList += serverSettings.classes.druid == true && listingDetails.druid[0] != undefined             ? `\n  • Druid   : ${listingDetails.druid.join(", ")}` : ``;
-              classList += serverSettings.classes.hunter == true && listingDetails.hunter[0] != undefined           ? `\n  • Hunter  : ${listingDetails.hunter.join(", ")}` : ``;
-              classList += serverSettings.classes.mage == true && listingDetails.mage[0] != undefined               ? `\n  • Mage    : ${listingDetails.mage.join(", ")}` : ``;
-              classList += serverSettings.classes.monk == true && listingDetails.monk[0] != undefined               ? `\n  • Monk    : ${listingDetails.monk.join(", ")}` : ``;
-              classList += serverSettings.classes.paladin == true && listingDetails.paladin[0] != undefined         ? `\n  • Paladin : ${listingDetails.paladin.join(", ")}` : ``;
-              classList += serverSettings.classes.priest == true && listingDetails.priest[0] != undefined           ? `\n  • Priest  : ${listingDetails.priest.join(", ")}` : ``;
-              classList += serverSettings.classes.rogue == true && listingDetails.rogue[0] != undefined             ? `\n  • Rogue   : ${listingDetails.rogue.join(", ")}` : ``;
-              classList += serverSettings.classes.shaman == true && listingDetails.shaman[0] != undefined           ? `\n  • Shaman  : ${listingDetails.shaman.join(", ")}` : ``;
-              classList += serverSettings.classes.warlock == true && listingDetails.warlock[0] != undefined         ? `\n  • Warlock : ${listingDetails.warlock.join(", ")}` : ``;
-              classList += serverSettings.classes.warrior == true && listingDetails.warrior[0] != undefined         ? `\n  • Warrior : ${listingDetails.warrior.join(", ")}` : ``;
-
-              if (classList !== '') {
-              // Send formatted recruiting post to channel
-                let m = await guild.channels.get(serverSettings.channel).send(`= ${listingDetails.guildname} =
-
-Region    :: ${listingDetails.region}
-Server    :: ${listingDetails.server}
-Faction   :: ${listingDetails.faction}
-Classes   :: ${classList}
-Language  :: ${listingDetails.language}
-Raid Type :: ${listingDetails.raidtype}
-Progress  :: (NYI)
-Raid Times:: (NYI)
-    •
-    •
-    •
-    •
-    •
-    •
-    •
-Contacts  ::
-    • Discord    : ${listingDetails.contactdiscord}
-    • Battle.net : ${listingDetails.contactbnet}
-Discord   :: ${listingDetails.discordlink}
-Website   :: ${listingDetails.website}
-Description ::
-${listingDetails.description}
-ID        ::  ${listingDetails._id}`, {code: "asciidoc"});
-                 messagelist.insert({listing: listingDetails._id, server: guild.id, channel: serverSettings.channel, message: m.id });
-              }
+              let post = postListing(listingDetails, serverSettings);
             } else {
               // add it to the backlog with 'guild.id' and listing id
               backlog.insert({server : guild.id, listing: listingDetails._id, method: 'update'});
