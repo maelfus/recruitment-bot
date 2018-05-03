@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const WebSocket = require('ws');
-const ws = new WebSocket('ws://127.0.0.1:9001');
+// const ws = new WebSocket('ws://127.0.0.1:9001');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,7 +18,11 @@ router.post('/removeguild', function(req, res, next) {
       req.send('An error occured while removing listing');
     }
     else {
-      ws.send(`delete,${req.body.id}`);
+      let ws = new WebSocket('ws://127.0.0.1:9001');
+      ws.on('open', function open() {
+        ws.send(`delete,${req.body.id}`);
+        ws.close();
+      })
       // Forward back to /list
       res.redirect('/list');
     }
@@ -107,7 +111,11 @@ router.post('/addguild', function(req, res, next) {
     }
     else {
       // Send notification to bot that a new guild was listed.
+      let ws = new WebSocket('ws://127.0.0.1:9001');
+      ws.on('open', function open() {
         ws.send(`update,${doc._id}`);
+        ws.close();
+      })
 
       // Forward back to /list
       res.redirect('/list');

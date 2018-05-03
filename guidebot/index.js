@@ -92,6 +92,7 @@ const backlog = db.get("backlog");
 // Handle incoming data pushes from Express
 wss.on('connection', function connection(ws) {
   ws.on('message', async function incoming(data) {
+    console.log(data);
     let req = data.split(",");
     try {
       // Lets deal with the backlog...
