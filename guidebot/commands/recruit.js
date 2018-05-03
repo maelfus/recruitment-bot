@@ -7,7 +7,7 @@ const settings = db.get("serversettings");
 
 exports.run = async (client, message, args, level) => {
   try {
-    const oldSettings = await settings.findOne( { "serverid" : message.guild.id } );
+    let oldSettings = await settings.findOne( { "serverid" : message.guild.id } );
     if (oldSettings == null) {
       throw "No settings available for this server. Use \`init\` to configure.";
     } else {
@@ -33,7 +33,8 @@ exports.run = async (client, message, args, level) => {
         typeof args[i] === 'function' ? null : classes.hasOwnProperty(args[i].toLowerCase()) ? classes[args[i].toLowerCase()] = true : await message.channel.send(`Invalid class, ${args[i]}, skipping...`);
       }
       // Update server settings for the new class filter and report to channel
-      await settings.findOneAndUpdate( { "serverid" : message.guild.id }, { "serverid" : message.guild.id, "classes" : classes, "channel": oldSettings.channel });
+      oldSettings.classes = classes;
+      await settings.findOneAndUpdate( { serverid : oldSettings.serverid }, oldSettings);
       let reportClasses = '';
       for ( i in classes ) {
         classes[i] === true ? reportClasses += `${i} `: null;

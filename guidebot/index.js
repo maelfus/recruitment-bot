@@ -70,6 +70,16 @@ ID        ::  ${listing._id}`, {code: "asciidoc"});
    }
 };
 
+async function postSignature(setting) {
+  if (setting.signature != '') {
+    let del = await client.guilds.get(setting.serverid).channels.get(setting.channel).fetchMessage(setting.signature);
+    del.delete();
+  }
+  let msg = await client.guilds.get(setting.serverid).channels.get(setting.channel).send(`= Listings expire after 2 weeks; Don't forget to update your listing regularly!=\n:: To have your guild listed, visit http://127.0.0.1:3000`, {code: "asciidoc"});
+  setting.signature = msg.id;
+  settings.findOneAndUpdate({serverid: setting.serverid}, setting );
+}
+
 // DB Setup
 const mongo = require('mongodb');
 const monk = require('monk');
@@ -82,6 +92,7 @@ const backlog = db.get("backlog");
 // Handle incoming data pushes from Express
 wss.on('connection', function connection(ws) {
   ws.on('message', async function incoming(data) {
+    let req = data.split(",");
     try {
       // Lets deal with the backlog...
       let bl = await backlog.find({});
@@ -90,7 +101,9 @@ wss.on('connection', function connection(ws) {
         let serverSettings = await settings.findOne({ serverid: item.server});
         if (item.method === 'update' && client.guilds.get(item.server).available) {
           let post = postListing(listingDetails, serverSettings);
-          backlog.findOneAndDelete({_id: tem._id});
+          backlog.findOneAndDelete({_id: item._id});
+          // Repost signature line after the listing
+          let postsig = postSignature(serverSettings);
         } else if (item.method === 'delete' && client.guilds.get(item.server).available) {
           //figure out backlog deletion when I get around to it.
           let del = await client.guilds.get(item.server).channels.get(serverSettings.channel).fetchMessage(item.message);
@@ -103,7 +116,6 @@ wss.on('connection', function connection(ws) {
       // Now deal with the original message request...
       // break the string sent in 'data' into a serviceable array 'req'
       // incoming data should look something like this: 'update,012345678901234567'
-      let req = data.split(",");
       if ( req[0] == 'update') {
         let listingDetails = await listings.findOne({ _id : req[1]});
 
@@ -112,6 +124,8 @@ wss.on('connection', function connection(ws) {
             // Pull necessary data from the DB
             let serverSettings = await settings.findOne({ serverid: guild.id });
             let post = postListing(listingDetails, serverSettings);
+            // repost signature line after listing
+            let postsig = postSignature(serverSettings);
           } else {
             // add it to the backlog with 'guild.id' and listing id
             backlog.insert({server : guild.id, listing: listingDetails._id, method: 'update'});

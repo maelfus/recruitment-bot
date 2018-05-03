@@ -16,7 +16,7 @@ exports.run = async (client, message, args, level) => {
 
       if ( message.guild.channels.has(channel) ) {
         oldSettings.channel = channel;
-        await settings.findOneAndUpdate( {serverid : message.guild.id} , oldSettings );
+        await settings.findOneAndUpdate( {serverid : oldSettings.serverid} , oldSettings );
         message.channel.send(`Channel settings updated!`);
       } else {
         throw "Invalid Channel. Pleast try again.";

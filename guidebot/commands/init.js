@@ -38,7 +38,7 @@ exports.run = async (client, message, args, level) => {
         typeof split[i] === 'function' ? null : classes.hasOwnProperty(split[i].toLowerCase()) ? classes[split[i].toLowerCase()] = true : message.channel.send(`Invalid class, ${split[i]}, skipping...`);
       }
       // Insert new settings into the db
-      settings.insert({ "serverid" : message.guild.id, "classes" : classes, "channel" : channel });
+      settings.insert({ "serverid" : message.guild.id, "classes" : classes, "channel" : channel, "signature": '' });
     } else {
       throw `Settings already exist for this server.  Use \`recruit\` and \`channel\` commands to update your server options.`;
     }
