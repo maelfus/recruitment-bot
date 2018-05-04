@@ -66,7 +66,7 @@ Website   :: ${listing.website}
 Description ::
 ${listing.description}
 ID        ::  ${listing._id}`, {code: "asciidoc"});
-     return messagelist.insert({listing: listing._id, server: settings.serverid, channel: settings.channel, message: m.id });
+     return messagelist.insert({listing: listing._id, server: settings.serverid, channel: settings.channel, message: m.id, lastupdated: listing.lastupdated });
    }
 };
 
@@ -92,9 +92,26 @@ const backlog = db.get("backlog");
 // Handle incoming data pushes from Express
 wss.on('connection', function connection(ws) {
   ws.on('message', async function incoming(data) {
-    console.log(data);
     let req = data.split(",");
     try {
+      // First expire all the outdated listings...
+      let expiryCheck = await messagelist.find({});
+      let expiryTime = new Date(Date.now() - 12096e5); // 12096e5 = ~2 weeks
+      expiryCheck.forEach( async (msg) => {
+        if (msg.lastupdated <= expiryTime) {
+          if (client.guilds.get(msg.server).available) {
+            try {
+              let del = await client.guilds.get(msg.server).channels.get(msg.channel).fetchMessage(msg.message);
+              del.delete();
+              await messagelist.findOneAndDelete({message: msg.message});
+            } catch (e) {console.log(e);}
+          } else {
+            // add it to the backlog for deletion...
+            backlog.insert({server : msg.server, message: msg.message, method: 'delete' });
+          }
+        }
+      });
+
       // Lets deal with the backlog...
       let bl = await backlog.find({});
       bl.forEach( async (item) => {
