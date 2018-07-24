@@ -3,7 +3,7 @@ import {
   RECEIVE_LISTING
 } from '../actions'
 
-function newestListing(state = {}, action) {
+export default function newestListing(state = {}, action) {
   switch (action.type) {
     case REQUEST_LISTING:
       return Object.assign({}, state, {
@@ -18,5 +18,3 @@ function newestListing(state = {}, action) {
       return state
   }
 }
-
-export default newestListing

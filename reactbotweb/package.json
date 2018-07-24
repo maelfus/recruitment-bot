@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.1",
+    "connected-react-router": "^4.3.0",
     "cross-fetch": "^2.2.2",
     "dotenv": "^5.0.1",
     "history": "^4.7.2",
@@ -12,7 +13,6 @@
     "react-oauth-flow": "^1.1.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
     "reactstrap": "^6.0.1",
     "redux": "^4.0.0",

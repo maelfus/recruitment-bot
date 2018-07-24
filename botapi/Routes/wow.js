@@ -14,8 +14,7 @@ wow.route('/')
 
 wow.route('/id/:id')
   .get((req, res) => {
-    // console.log(req.params.id);
-    const id = monk.id(req.params.id);
+    const id = monk.id(req.params.id)
     collection.findOne({ _id: id }, (err, listing) => {
       res.json(listing);
     })
@@ -28,6 +27,13 @@ wow.route('/user/:userId')
       res.json(listing);
     })
   })
+  .post((req, res) => {
+    let body = JSON.parse(req.params.body)
+    body.user = req.params.userId
+    collection.findOneAndUpdate({ user: req.params.userId }, body, { upsert: true, returnNewDocument: true}, (err, listing) => {
+      res.json(listing)
+    })
+  })
 
 wow.route('/newest')
   .get((req, res) => {
@@ -35,5 +41,6 @@ wow.route('/newest')
       res.json(listing);
     })
   })
+
 
 export default wow;
