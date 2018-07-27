@@ -1,4 +1,4 @@
-botweb/data/*
+botweb/*
 botweb/node_modules/*
 guidebot/config.js
 guidebot/data/*
