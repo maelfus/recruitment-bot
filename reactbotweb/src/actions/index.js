@@ -66,10 +66,10 @@ function updateUserListing(userId, data) {
 }
 
 export const USER_LISTING_UPDATED = 'USER_LISTING_UPDATED'
-function userListingUpdated(data) {
+function userListingUpdated(json) {
   return {
     type: USER_LISTING_UPDATED,
-    data
+    json
   }
 }
 
@@ -90,7 +90,7 @@ export function fetchUserListing(userId) {
 export function postUserListing(data) {
   return function (dispatch) {
     dispatch(updateUserListing(data.user, data))
-    return fetch(`http://localhost:3005/api/wow/user/${data.user}`, { method: "POST", body: JSON.stringify(data) })
+    return fetch(`http://localhost:3005/api/wow/user/${data.user}`, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type" : "application/json" } })
       .then (
         response => response.json(),
         error => console.error(`Error posting listing: ${error}`)

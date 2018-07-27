@@ -24,19 +24,30 @@ const wss = new WebSocket.Server({
 });
 
 async function postListing(listing, settings) {
+  //Check to see if this listing already exists in the message listed
+  let messageArray = await messagelist.find({ server: settings.serverid, listing: listing._id})
+  if (messageArray.length != 0) {
+    messageArray.map(async (element) => {
+      let del = await client.guilds.get(element.server).channels.get(element.channel).fetchMessage(element.message);
+      del.delete()
+      await messagelist.findOneAndDelete({message: element.message});
+    })
+  }
+
+  // Post the updated or new listing
   let classList = '';
-  classList += settings.classes.deathknight == true && listing.deathknight[0] != undefined ? `\n  • Death Knight : ${listing.deathknight.join(", ")}` : ``;
-  classList += settings.classes.demonhunter == true && listing.demonhunter[0] != undefined ? `\n  • Demon Hunter : ${listing.demonhunter.join(", ")}` : ``;
-  classList += settings.classes.druid == true && listing.druid[0] != undefined             ? `\n  • Druid   : ${listing.druid.join(", ")}` : ``;
-  classList += settings.classes.hunter == true && listing.hunter[0] != undefined           ? `\n  • Hunter  : ${listing.hunter.join(", ")}` : ``;
-  classList += settings.classes.mage == true && listing.mage[0] != undefined               ? `\n  • Mage    : ${listing.mage.join(", ")}` : ``;
-  classList += settings.classes.monk == true && listing.monk[0] != undefined               ? `\n  • Monk    : ${listing.monk.join(", ")}` : ``;
-  classList += settings.classes.paladin == true && listing.paladin[0] != undefined         ? `\n  • Paladin : ${listing.paladin.join(", ")}` : ``;
-  classList += settings.classes.priest == true && listing.priest[0] != undefined           ? `\n  • Priest  : ${listing.priest.join(", ")}` : ``;
-  classList += settings.classes.rogue == true && listing.rogue[0] != undefined             ? `\n  • Rogue   : ${listing.rogue.join(", ")}` : ``;
-  classList += settings.classes.shaman == true && listing.shaman[0] != undefined           ? `\n  • Shaman  : ${listing.shaman.join(", ")}` : ``;
-  classList += settings.classes.warlock == true && listing.warlock[0] != undefined         ? `\n  • Warlock : ${listing.warlock.join(", ")}` : ``;
-  classList += settings.classes.warrior == true && listing.warrior[0] != undefined         ? `\n  • Warrior : ${listing.warrior.join(", ")}` : ``;
+  classList += settings.classes.deathknight == true && listing.classes.hasOwnProperty('deathknight') && listing.classes.deathknight[0] != undefined ? `\n  • Death Knight : ${listing.classes.deathknight.join(", ")}` : ``;
+  classList += settings.classes.demonhunter == true && listing.classes.hasOwnProperty('demonhunter') && listing.classes.demonhunter[0] != undefined ? `\n  • Demon Hunter : ${listing.classes.demonhunter.join(", ")}` : ``;
+  classList += settings.classes.druid == true && listing.classes.hasOwnProperty('druid') && listing.classes.druid[0] != undefined             ? `\n  • Druid   : ${listing.classes.druid.join(", ")}` : ``;
+  classList += settings.classes.hunter == true && listing.classes.hasOwnProperty('hunter') && listing.classes.hunter[0] != undefined           ? `\n  • Hunter  : ${listing.classes.hunter.join(", ")}` : ``;
+  classList += settings.classes.mage == true && listing.classes.hasOwnProperty('mage') && listing.classes.mage[0] != undefined               ? `\n  • Mage    : ${listing.classes.mage.join(", ")}` : ``;
+  classList += settings.classes.monk == true && listing.classes.hasOwnProperty('monk') && listing.classes.monk[0] != undefined               ? `\n  • Monk    : ${listing.classes.monk.join(", ")}` : ``;
+  classList += settings.classes.paladin == true && listing.classes.hasOwnProperty('paladin') && listing.classes.paladin[0] != undefined         ? `\n  • Paladin : ${listing.classes.paladin.join(", ")}` : ``;
+  classList += settings.classes.priest == true && listing.classes.hasOwnProperty('priest') && listing.classes.priest[0] != undefined           ? `\n  • Priest  : ${listing.classes.priest.join(", ")}` : ``;
+  classList += settings.classes.rogue == true && listing.classes.hasOwnProperty('rogue') && listing.classes.rogue[0] != undefined             ? `\n  • Rogue   : ${listing.classes.rogue.join(", ")}` : ``;
+  classList += settings.classes.shaman == true && listing.classes.hasOwnProperty('shaman') && listing.classes.shaman[0] != undefined           ? `\n  • Shaman  : ${listing.classes.shaman.join(", ")}` : ``;
+  classList += settings.classes.warlock == true && listing.classes.hasOwnProperty('warlock') && listing.classes.warlock[0] != undefined         ? `\n  • Warlock : ${listing.classes.warlock.join(", ")}` : ``;
+  classList += settings.classes.warrior == true && listing.classes.hasOwnProperty('warrior') && listing.classes.warrior[0] != undefined         ? `\n  • Warrior : ${listing.classes.warrior.join(", ")}` : ``;
 
   if (classList !== '') {
   // Send formatted recruiting post to channel

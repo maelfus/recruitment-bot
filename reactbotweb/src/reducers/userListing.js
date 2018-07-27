@@ -15,7 +15,7 @@ export default function userListing(state = {}, action) {
     case RECEIVE_USER_LISTING:
       return Object.assign({}, state, {
         isFetching: false,
-        listing: action.json[0]
+        listing: action.json
       })
     case NO_USER_LISTING:
       return Object.assign({}, state, {
@@ -28,7 +28,7 @@ export default function userListing(state = {}, action) {
     case USER_LISTING_UPDATED:
       return Object.assign({}, state, {
         isPosting: false,
-        verify: action.json[0]
+        listing: action.json
       })
     default:
       return state

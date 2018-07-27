@@ -1,6 +1,8 @@
 import express from 'express';
 import collection from '../models/wow';
 import monk from 'monk';
+import WebSocket from 'ws'
+
 
 const wow = express.Router();
 
@@ -28,10 +30,16 @@ wow.route('/user/:userId')
     })
   })
   .post((req, res) => {
-    let body = JSON.parse(req.params.body)
-    body.user = req.params.userId
+    let body = req.body
+    body.lastupdated = new Date()
     collection.findOneAndUpdate({ user: req.params.userId }, body, { upsert: true, returnNewDocument: true}, (err, listing) => {
       res.json(listing)
+      // Send update command to bot
+      let ws = new WebSocket('ws://127.0.0.1:9001');
+      ws.on('open', function open() {
+        ws.send(`update,${listing._id}`);
+        ws.close();
+      })
     })
   })
 
