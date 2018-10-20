@@ -139,3 +139,45 @@ export function fetchUser(accessToken) {
       )
   }
 }
+
+export const REQUEST_BNET_DATA = 'REQUEST_BNET_DATA'
+function requestBNetData() {
+  return {
+    type: REQUEST_BNET_DATA,
+  }
+}
+
+export const RECEIVE_BNET_DATA = 'RECEIVE_BNET_DATA'
+function receiveBNetData(json) {
+  return {
+    type: RECEIVE_BNET_DATA,
+    json
+  }
+}
+
+export const UPDATE_BNET_DATA = 'UPDATE_BNET_DATA'
+function updateBNetData() {
+  return {
+    type: UPDATE_BNET_DATA
+  }
+}
+
+
+// To avoid writing a completely seperate function for sending an update call,
+// change this function to accept a prop, check the prop and generate the API
+// endpoint to use in fetch(). Accept something simple like a str 'update' and
+// use a ternary check
+export function fetchBNetData(update) {
+  const uri = update === true ? 'http://localhost:3005/api/wow/bnet' : 'http://localhost:3005/api/wow/bnet/update'
+  return function (dispatch) {
+    dispatch(requestBNetData())
+    return fetch(uri)
+      .then (
+        response => response.json(),
+        error => console.error(`Error fetching BNet Region and Server Data from the db: ${error}`)
+      )
+      .then (
+        json => dispatch(receiveBNetData(json))
+      )
+  }
+}

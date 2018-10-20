@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { OauthReceiver } from 'react-oauth-flow'
 import { connect }from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { fetchUser, fetchUserListing } from '../actions'
+import { fetchUser, fetchUserListing, fetchBNetData } from '../actions'
 
 
 class Callback extends Component {
@@ -13,6 +13,8 @@ class Callback extends Component {
     await this.props.dispatch(fetchUser(accessToken))
 
     await this.props.dispatch(fetchUserListing(this.props.userApp.user.id))
+    await this.props.dispatch(fetchBNetData())
+
     this.props.history.push(state.from)
   }
 

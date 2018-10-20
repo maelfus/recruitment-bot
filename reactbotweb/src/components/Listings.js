@@ -11,6 +11,10 @@ import {
   Label
 } from 'reactstrap'
 
+class RaidTimes extends Component {
+
+}
+
 class classesObj {
   constructor() {
     this.deathknight_Blood = false
@@ -64,7 +68,15 @@ class Listings extends Component {
         server: "Doomhammer",
         faction: "Horde",
         raidtype: "",
-        raidtimes: [],
+        raidtimes: {
+          sunday: [ false, '', '' ],
+          monday: [ false, '', '' ],
+          tuesday: [ false, '', '' ],
+          wednesday: [ false, '', '' ],
+          thursday: [ false, '', '' ],
+          friday: [ false, '', '' ],
+          saturday: [ false, '', '' ]
+        },
         progress: [],
         classes: new classesObj(),
         contactbnet: "",
@@ -95,7 +107,7 @@ class Listings extends Component {
           })
         }
       }
-      
+
       this.setState({
         listing: {
           guildname: userListing.guildname,
@@ -598,6 +610,8 @@ const mapStateToProps = (state) => {
   return {
     userListing: userListing.listing,
     userApp: userApp
+    // for the stored battleNet region/server objects
+    //battleNet: battleNet
   }
 }
 

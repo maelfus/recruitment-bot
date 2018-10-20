@@ -4,3 +4,5 @@ guidebot/config.js
 guidebot/data/*
 guidebot/node_modules/*
 botapi/node_modules/*
+.vscode/terminals.json
+.env
