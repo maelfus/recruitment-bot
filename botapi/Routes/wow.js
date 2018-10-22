@@ -90,7 +90,7 @@ wow.route('/bnet/update')
     })
   
     //console.log(realmIndex)
-
+    realmIndex.us.region = "us"
     bnet.findOneAndUpdate( { region: "us" }, realmIndex.us, { upsert: true, returnNewDocument: true }, (err, doc) => { console.log(doc) })
   })
 
